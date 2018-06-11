@@ -36,6 +36,7 @@ $(function() {
   var game_over = false;
 
 
+
   /**** Game ****/
 
   var game = setInterval(start_game , 1000/60);
@@ -57,9 +58,41 @@ $(function() {
     }
   });
 
+  // $(document).on('taphold', function (e) {
+  //   var taphold = e.type;
+  //   if (taphold && player_input === false && !game_over) {
+  //     player_input = setInterval(upward, 1000/60);
+  //   }
+  // });
+  //
+  //
+  // $(document).on('tap', function (e) {
+  //   var tap = e.type;
+  //   if (tap) {
+  //     clearInterval(player_input)
+  //     player_input = false;
+  //   }
+  // });
+  //
+  // $(document).on('mousedown', function (e) {
+  //   var mouse = e.type;
+  //   if (mouse && player_input === false && !game_over) {
+  //     player_input = setInterval(upward, 1000/60);
+  //   }
+  // });
+  //
+  // $(document).on('mouseup', function (e) {
+  //   var mouse = e.type;
+  //   if (mouse) {
+  //     clearInterval(player_input)
+  //     player_input = false;
+  //   }
+  // });
+
   $('#restart').on('click', function(){
     restart.fadeOut();
     restart_game();
+    // location.reload();
   });
 
   // start game
@@ -153,6 +186,7 @@ $(function() {
   // game over
   function end_game(){
     clearInterval(game);
+    game = false;
     restart.fadeIn();
   }
 
@@ -169,7 +203,9 @@ $(function() {
     player_input = false;
     score_updated = false;
     game_over = false;
-    game = setInterval(start_game , 1000/60);
+    if (game === false){
+     game = setInterval(start_game , 1000/60);
+    }
   }
 
 });
