@@ -9,7 +9,9 @@ body {
   height: 400px;
   width: 90%;
   border: 5px inset;
-  background-color: aliceblue;
+  background: url('background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   margin-left: 4%;
   overflow: hidden;
 }
@@ -51,6 +53,7 @@ body {
 }
 
 #speed_display{
+  display: none;
 }
 
 #restart{
@@ -64,4 +67,8 @@ body {
   border: none;
   cursor: pointer;
   display: none;
+}
+
+.ui-loader {
+   display: none !important;
 }

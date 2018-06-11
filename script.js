@@ -43,51 +43,50 @@ $(function() {
 
   /**** Functions ****/
 
-  $(document).on('keydown', function(e){
+  $(document).on('keypress', function(e){
     var key = e.keyCode;
     if (key === 32 && player_input === false && !game_over){
-      player_input = setInterval(upward, 1000/60);
+      var i = 0;
+      player_input = setInterval(function(){
+        upward();
+        if (++i >= 5) {
+          clearInterval(player_input);
+          player_input = false;
+        }
+      }, 1000/60);
     }
   });
 
-  $(document).on('keyup', function(e){
-    var key = e.keyCode;
-    if (key === 32){
-      clearInterval(player_input);
-      player_input = false;
-    }
-  });
-
-  // $(document).on('taphold', function (e) {
-  //   var taphold = e.type;
-  //   if (taphold && player_input === false && !game_over) {
+  // Alternative control method that allows the player to hold down
+  // spacebar to keep going up.
+  // $(document).on('keydown', function(e){
+  //   var key = e.keyCode;
+  //   if (key === 32 && player_input === false && !game_over){
   //     player_input = setInterval(upward, 1000/60);
   //   }
   // });
   //
-  //
-  // $(document).on('tap', function (e) {
-  //   var tap = e.type;
-  //   if (tap) {
-  //     clearInterval(player_input)
+  // $(document).on('keyup', function(e){
+  //   var key = e.keyCode;
+  //   if (key === 32){
+  //     clearInterval(player_input);
   //     player_input = false;
   //   }
   // });
-  //
-  // $(document).on('mousedown', function (e) {
-  //   var mouse = e.type;
-  //   if (mouse && player_input === false && !game_over) {
-  //     player_input = setInterval(upward, 1000/60);
-  //   }
-  // });
-  //
-  // $(document).on('mouseup', function (e) {
-  //   var mouse = e.type;
-  //   if (mouse) {
-  //     clearInterval(player_input)
-  //     player_input = false;
-  //   }
-  // });
+
+  $(document).on('tap', function(e){
+    var tap = e.type;
+    if (tap && player_input === false && !game_over){
+      var i = 0;
+      player_input = setInterval(function(){
+        upward();
+        if (++i >= 5) {
+          clearInterval(player_input);
+          player_input = false;
+        }
+      }, 1000/60);
+    }
+  });
 
   $('#restart').on('click', function(){
     restart.fadeOut();
@@ -156,12 +155,12 @@ $(function() {
 
   // move the bird upward
   function upward(){
-    bird.css('top', parseInt(bird.css('top')) - 8);
+    bird.css('top', parseInt(bird.css('top')) - 10);
   }
 
   // move the bird downward
   function downward(){
-    bird.css('top', parseInt(bird.css('top')) + 4);
+    bird.css('top', parseInt(bird.css('top')) + 5);
   }
 
   // collision detection
@@ -200,7 +199,10 @@ $(function() {
     high_score_display.css('color', 'black');
     speed = 5;
     speed_display.text(10);
-    player_input = false;
+    if (player_input != false){
+      clearInterval(player_input);
+      player_input = false;
+    }
     score_updated = false;
     game_over = false;
     if (game === false){
