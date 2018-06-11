@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>FlattyBird</title>
+		<!--CSS-->
+		<link href="style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<!--Game Container-->
+		<div id="container">
+			<div id="bird"></div>
+
+			<div id="pole_1" class="pole"></div>
+			<div id="pole_2" class="pole"></div>
+		</div>
+
+		<!--Score and speed display-->
+		<div id="score_div">
+			<p><b>
+				Press Space Bar to jump
+			</b></p>
+
+			<p><b>
+				Score:
+				<span id="score">0</span>
+			</b></p>
+
+			<p><b>
+				High Score:
+				<span id="high_score">0</span>
+			</b></p>
+
+			<p id="speed_display"><b>
+				Speed:
+				<span id="speed">10</span>
+			</b></p>
+		</div>
+
+		<!--Restart button-->
+		<button id="restart">Restart</button>
+
+		<!--JS/JQuery-->
+		<script src="jquery-3.3.1.min.js"></script>
+		<script src="script.js"></script>
+
+	</body>
+
+</html>
