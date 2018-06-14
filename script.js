@@ -14,10 +14,15 @@ $(function() {
   var restart = $('#restart');
 
   // sound effects
+  var bgm = document.createElement('audio');
+  bgm.src = 'assets/sounds/splash_bgm.wav';
+  bgm.loop = true;
+  var flap_sound = document.createElement('audio');
+  flap_sound.src = 'assets/sounds/wing_flap.wav';
   var score_sound = document.createElement('audio');
-  score_sound.setAttribute('src', 'score.wav');
+  score_sound.src = 'assets/sounds/score.wav';
   var death_sound = document.createElement('audio');
-  death_sound.setAttribute('src', 'death.wav');
+  death_sound.src = 'assets/sounds/death.wav';
 
 
   // saving initial setups
@@ -31,22 +36,51 @@ $(function() {
   var speed = 5;
 
   // state variables
+  var game = false;
   var player_input = false;
   var score_updated = false;
-  var game_over = false;
+  var game_over = true;
 
 
 
   /**** Game ****/
-
-  var game = setInterval(start_game , 1000/60);
+  // Click on Start/Restart to start the game
+  $('#restart').on('click', function(){
+    restart.fadeOut();
+    start_game();
+  });
 
   /**** Functions ****/
 
+  // reset object positions & state variables
+  // start/restart game
+  function start_game(){
+    bird.css('top', bird_init_top);
+    pole.css('right', pole_init_position);
+    pole.css('height', pole_init_height);
+    score_display.text(0);
+    high_score_display.css('color', 'black');
+    speed = 5;
+    speed_display.text(10);
+    if (player_input != false){
+      clearInterval(player_input);
+      player_input = false;
+    }
+    score_updated = false;
+    game_over = false;
+    if (game === false){
+     game = setInterval(run_game, 1000/60);
+    }
+    bgm.play();
+  }
+
+  // space bar control
   $(document).on('keypress', function(e){
     var key = e.keyCode;
     if (key === 32 && player_input === false && !game_over){
       var i = 0;
+      flap_sound.currentTime = 0;
+      flap_sound.play();
       player_input = setInterval(function(){
         upward();
         if (++i >= 5) {
@@ -74,6 +108,7 @@ $(function() {
   //   }
   // });
 
+  // mobile support for tap control
   $(document).on('tap', function(e){
     var tap = e.type;
     if (tap && player_input === false && !game_over){
@@ -88,14 +123,8 @@ $(function() {
     }
   });
 
-  $('#restart').on('click', function(){
-    restart.fadeOut();
-    restart_game();
-    // location.reload();
-  });
-
   // start game
-  function start_game(){
+  function run_game(){
 
     /* Check for game end */
     if (collision(bird, pole_1) || collision(bird, pole_2) ||
@@ -186,28 +215,10 @@ $(function() {
   function end_game(){
     clearInterval(game);
     game = false;
+    restart.html('Restart');
     restart.fadeIn();
-  }
-
-  // reset object positions & state variables
-  // restart game
-  function restart_game(){
-    bird.css('top', bird_init_top);
-    pole.css('right', pole_init_position);
-    pole.css('height', pole_init_height);
-    score_display.text(0);
-    high_score_display.css('color', 'black');
-    speed = 5;
-    speed_display.text(10);
-    if (player_input != false){
-      clearInterval(player_input);
-      player_input = false;
-    }
-    score_updated = false;
-    game_over = false;
-    if (game === false){
-     game = setInterval(start_game , 1000/60);
-    }
+    bgm.pause();
+    bgm.currentTime = 0;
   }
 
 });
