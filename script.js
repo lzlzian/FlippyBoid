@@ -78,9 +78,9 @@ $(function() {
   $(document).on('keypress', function(e){
     var key = e.keyCode;
     if (key === 32 && player_input === false && !game_over){
-      var i = 0;
       flap_sound.currentTime = 0;
       flap_sound.play();
+      var i = 0;
       player_input = setInterval(function(){
         upward();
         if (++i >= 5) {
@@ -112,6 +112,8 @@ $(function() {
   $(document).on('tap', function(e){
     var tap = e.type;
     if (tap && player_input === false && !game_over){
+      flap_sound.currentTime = 0;
+      flap_sound.play();
       var i = 0;
       player_input = setInterval(function(){
         upward();
